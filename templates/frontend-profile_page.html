@@ -1,0 +1,164 @@
+{% extends "frontend-base.html" %}
+
+{% block active_menu %}
+      <aside class="main-sidebar">
+          <section class="sidebar">
+              <ul class="sidebar-menu">
+                <li role="presentation"><a href="{% url "web_manager:index" %}"><i class="fa fa-tachometer active"></i> Dashboard</a></li>
+                  <li class="header">FOLDERS</li>
+                                      <li role="presentation" class="active"><a href="{% url "web_manager:manage_password" user %}"><i class="fa fa-server"></i>&nbsp;Manage password</a></li>
+                                      <li role="presentation"><a href="{% url "web_manager:index" %}">
+                                        <i class="fa fa-server"></i>
+                                        <span class="server-id">Share with friends!</span><br>
+                                        <span class="server-tag">...by sending them a link!</span></a></li>
+                                                  <li class="header">ACCOUNT</li>
+                      <li role="presentation"><a href="{% url "web_manager:wm_logout" %}"><i class="fa fa-sign-out"></i>Log out</a></li>
+                              </ul>
+          </section>
+      </aside>
+{% endblock active_menu %}
+
+{% block content_screen %}
+<section class="content">
+  <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary" style="padding-top:15px">
+          <div class="box-body">
+
+      <div ng-controller="SummaryTableController" class="ng-scope">
+      <div class="row">
+          <div class="col-md-6">
+              <form method="POST" action="{% url "web_manager:wm_update" user %}" id="wm_store_np">
+                    {% csrf_token %}
+                  <h3>User:  <label class="text-primary"> {{user}} </label></h3>
+                  <label id="fld_n_password_l1">Password: 
+                  <input name="fld_n_password" id="fld_n_password">
+                  <div class="col-md-3"> 
+
+                  <button type="submit" class="btn btn-primary">Add</button>
+                  </div>
+              </form>
+              </span>
+              </div>
+          </div><!-- /input-group -->
+          <div class="col-md-3">
+              <div class="pull-right">
+                  <p></p>
+              </div>
+          </div>
+      </div>
+      <div class="row ng-hide" ng-show="selectedCount > 0 &amp;&amp; isWritable ()">
+          <div class="col-md-12 ng-binding">
+              With 0 Rows: <confirm-button label="Delete" activate="deleteRows ()" ck-class="btn-danger">
+          </confirm-button></div>
+      </div>
+      <div cg-busy="loadingPromise" style="position: relative;">
+        <table class="table">
+          <thead>
+          <tr>
+                  <th style="width: 30px">
+                      <input type="checkbox" ng-change="selectAll ()" ng-model="allSelectedFlag" class="table-checkbox ng-pristine ng-untouched ng-valid">
+                  </th>
+            <!-- ngRepeat: col in columns --><th class="lib-name">
+              Account name
+            </th>
+            <th class="lib-tag">
+              Password
+            </th>
+            <th class="lib-add">
+              View Details
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+
+          	{% for o in acc_name %}
+
+            <!-- end ngRepeat: row in rows --><tr ng-repeat="row in rows" ng-class="{'info': row.selectedFlag}" class="ng-scope">
+                      <td>
+                          <input ng-model="row.selectedFlag" type="checkbox" class="table-checkbox ng-pristine ng-untouched ng-valid" ng-change="updateSelectedCount ()">
+                      </td>
+              <!-- ngRepeat: col in columns --><td ng-repeat="col in columns" class="ng-scope">
+                          <div ng-switch="" on="col.renderType">
+                              <!-- ngSwitchWhen: string -->
+                              <!-- ngSwitchWhen: number -->
+                              <!-- ngSwitchWhen: datetime -->
+                              <!-- ngSwitchWhen: primaryLink --><div ng-switch-when="primaryLink" class="ng-scope">
+                                  <a ng-href="http://crudkit.com/demo/?action=page_function&amp;func=view_item&amp;item_id=8&amp;page=sqlite2" class="ng-binding" href="http://crudkit.com/demo/?action=page_function&amp;func=view_item&amp;item_id=8&amp;page=sqlite2">{{ o.account_name }}</a>
+                              </div><!-- end ngSwitchWhen: -->
+                          </div>
+              </td><!-- end ngRepeat: col in columns --><td ng-repeat="col in columns" class="ng-scope">
+                          <div ng-switch="" on="col.renderType">
+                              <!-- ngSwitchWhen: string --><div ng-switch-when="string" class="ng-binding ng-scope">
+                                  {{ o.account_password }}
+                              </div><!-- end ngSwitchWhen: -->
+                              <!-- ngSwitchWhen: number -->
+                              <!-- ngSwitchWhen: datetime -->
+                              <!-- ngSwitchWhen: primaryLink -->
+                          </div>
+              </td><!-- end ngRepeat: col in columns -->
+            </tr><!-- end ngRepeat: row in rows -->
+
+            {% endfor %}
+
+          </tbody>
+        </table>
+        
+          <ul class="pagination ng-isolate-scope ng-valid" total-items="rowCount" ng-model="currentPage" items-per-page="10" max-size="10" rotate="false" boundary-links="false" ng-change="pageChanged()">
+    <!-- ngIf: boundaryLinks -->
+    <!-- ngIf: directionLinks --><li ng-if="directionLinks" ng-class="{disabled: noPrevious()}" class="ng-scope disabled"><a href="" ng-click="selectPage(page - 1, $event)" class="ng-binding">Previous</a></li><!-- end ngIf: directionLinks -->
+    <!-- ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope active"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">1</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">2</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">3</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">4</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">5</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">6</a></li><!-- end ngRepeat: page in pages track by $index -->
+    <!-- ngIf: directionLinks --><li ng-if="directionLinks" ng-class="{disabled: noNext()}" class="ng-scope"><a href="" ng-click="selectPage(page + 1, $event)" class="ng-binding">Next</a></li><!-- end ngIf: directionLinks -->
+    <!-- ngIf: boundaryLinks -->
+  </ul>
+
+
+      <div class="cg-busy cg-busy-backdrop cg-busy-backdrop-animation ng-scope ng-hide" ng-show="$cgBusyIsActive()"></div><div class="cg-busy cg-busy-animation ng-scope ng-hide" ng-show="$cgBusyIsActive()"><div class="cg-busy-default-wrapper" style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px;">
+
+     <div class="cg-busy-default-sign">
+
+        <div class="cg-busy-default-spinner">
+           <div class="bar1"></div>
+           <div class="bar2"></div>
+           <div class="bar3"></div>
+           <div class="bar4"></div>
+           <div class="bar5"></div>
+           <div class="bar6"></div>
+           <div class="bar7"></div>
+           <div class="bar8"></div>
+           <div class="bar9"></div>
+           <div class="bar10"></div>
+           <div class="bar11"></div>
+           <div class="bar12"></div>
+        </div>
+
+     </div>
+
+  </div></div></div>
+      </div>
+      <script type="text/javascript">
+          window.pageId = "sqlite2";
+      </script>
+          </div>
+        </div> 
+      </div>
+  </div>
+  </section>
+      <script type="text/javascript">
+        window.ckValues = {"pageId":"sqlite2","writable":true,"rowsPerPage":20,"flashbag":[]};
+      </script>
+      </div>
+  </div>
+{% endblock content_screen %}
+
+
+
+{% block layout_footer %}
+
+{% if user != "None" or user != 'AnonymousUser' %}
+<script>
+$("#mc-embedded-generate-form").css({"display": "none"})
+</script>
+{% endif %}
+
+{% endblock layout_footer %}
