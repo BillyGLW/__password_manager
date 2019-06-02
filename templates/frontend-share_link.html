@@ -6,8 +6,8 @@
               <ul class="sidebar-menu">
                 <li role="presentation"><a href="{% url "web_manager:index" %}"><i class="fa fa-tachometer active"></i> Dashboard</a></li>
                   <li class="header">FOLDERS</li>
-                                      <li role="presentation" class="active"><a href="{% url "web_manager:manage_password" user %}"><i class="fa fa-server"></i>&nbsp;Manage password</a></li>
-                                      <li role="presentation"><a href="{% url "web_manager:shared_link" user %}">
+                                      <li role="presentation"><a href="{% url "web_manager:manage_password" user %}"><i class="fa fa-server"></i>&nbsp;Manage password</a></li>
+                                      <li role="presentation" class="active"><a href="{% url "web_manager:shared_link" user %}">
                                         <i class="fa fa-server"></i>
                                         <span class="server-id">Share with friends!</span><br>
                                         <span class="server-tag">...by sending them a link!</span></a></li>
@@ -17,6 +17,7 @@
           </section>
       </aside>
 {% endblock active_menu %}
+
 
 {% block content_screen %}
 <section class="content">
@@ -30,14 +31,19 @@
           <div class="col-md-6">
               <form method="POST" action="{% url "web_manager:wm_update" user %}" id="wm_store_np">
                     {% csrf_token %}
-                  <h3>User:  <label class="text-primary"> {{user}} </label></h3>
-                  <label id="fld_n_password_l1">Password: 
-                  <input name="fld_n_password" id="fld_n_password">
+                  <h3>Hash:  <label class="text-primary"> {{hash}} </label></h3>
+                  {% if user_url %}
+                   Your time-valid password link:
+                   <div class="col-md-12">
+                   <a href="{{ user_url }}">  <code>{{ user_url }}</code> </a> 
+                  </div>
+                  {% endif %}
+                  <h6>Choose password u want to share then generate temporary link.  </h6>
                   <div class="col-md-3"> 
 
-                  <button type="submit" class="btn btn-primary">Add</button>
-                  <a role="button" onclick="serialize_chx()" class="btn btn-primary">Delete</a>
+                  <a role="button" onclick="serialize_chx()" class="btn btn-primary">Generate</a>
                   </div>
+                  <!-- href="{% url "web_manager:wm_delete" user %}"   -->
               </form>
               </span>
               </div>
@@ -64,13 +70,13 @@
               Password
             </th>
             <th class="lib-add">
-              New password:
+              View Details
             </th>
           </tr>
           </thead>
           <tbody>
 
-          	{% for o in acc_name %}
+            {% for o in acc_name %}
 
          <tr ng-repeat="row in rows" ng-class="{'info': row.selectedFlag}" class="ng-scope">
                       <td id="checkboxy">
@@ -92,13 +98,11 @@
               </td><!-- end ngRepeat: col in columns -->
        
               <td>
-
-                <div id="input-wrapper">
-                <input id="inp_id_{{ o.pk }}" name="inp_id_{{ o.pk }}" type="text" /> 
-                </div>
-                <div class="col-md-12">
-                  <button onclick="sl_inp({{o.pk}})" class="button btn-primary">Save</a>
-                </div>
+         <div ng-switch="" on="col.renderType">
+                              <!-- ngSwitchWhen: string --><div ng-switch-when="string" class="ng-binding ng-scope">
+        <button type="button" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-edit"></span><a href="#"> Edit </a>
+        </button>
       </p>
                               </div><!-- end ngSwitchWhen: -->
                               <!-- ngSwitchWhen: number -->
@@ -141,9 +145,8 @@
 <script>
 $("#mc-embedded-generate-form").css({"display": "none"})
 </script>
-{% endif %}
 <script>
-	function selectAll(){
+  function selectAll(){
         if(document.getElementById('checkbox').checked){
             $('.checkbox').each(function(){
                 this.checked = true;
@@ -155,17 +158,15 @@ $("#mc-embedded-generate-form").css({"display": "none"})
                 $(this).attr("checked", "");
             });
         }
-	}
-	function serialize_chx(){var formdata = $('input[type=\'checkbox\']:checked').serialize();loginurl = '{% url "web_manager:wm_delete" user %}';$.ajax({url: loginurl,type: "POST",data: formdata,success: function(data){location.reload()}});}
-
-
-    function sl_inp(id){var formdata = $('#input-wrapper :input').serialize(); loginurl = '{% url "web_manager:wm_password_update" user %}';$.ajax({url: loginurl,type: "POST",data: {'formdata': formdata, 'id': id} ,success:
+  }
+  function serialize_chx(){var formdata = $('input[type=\'checkbox\']:checked').serialize();loginurl = '{% url "web_manager:wm_shared_link_generate" user %}';$.ajax({url: loginurl,type: "POST",data: formdata,success:
    function(data)
    {
-    data = JSON.parse(data);
-    var x = (data['status'] == false) ? false : alert('Password changed!');
-    location.reload();
-   }});}
 
+    data = JSON.parse(data);
+    window.location.href = data['url'];
+   }});}
 </script>
+{% endif %}
+
 {% endblock layout_footer %}

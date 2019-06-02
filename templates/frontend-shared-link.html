@@ -6,8 +6,8 @@
               <ul class="sidebar-menu">
                 <li role="presentation"><a href="{% url "web_manager:index" %}"><i class="fa fa-tachometer active"></i> Dashboard</a></li>
                   <li class="header">FOLDERS</li>
-                                      <li role="presentation" class="active"><a href="{% url "web_manager:manage_password" user %}"><i class="fa fa-server"></i>&nbsp;Manage password</a></li>
-                                      <li role="presentation"><a href="{% url "web_manager:shared_link" user %}">
+                                      <li role="presentation"><a href="{% url "web_manager:manage_password" user %}"><i class="fa fa-server"></i>&nbsp;Manage password</a></li>
+                                      <li role="presentation" class="active"><a href="{% url "web_manager:shared_link" user %}">
                                         <i class="fa fa-server"></i>
                                         <span class="server-id">Share with friends!</span><br>
                                         <span class="server-tag">...by sending them a link!</span></a></li>
@@ -17,6 +17,7 @@
           </section>
       </aside>
 {% endblock active_menu %}
+
 
 {% block content_screen %}
 <section class="content">
@@ -30,14 +31,19 @@
           <div class="col-md-6">
               <form method="POST" action="{% url "web_manager:wm_update" user %}" id="wm_store_np">
                     {% csrf_token %}
-                  <h3>User:  <label class="text-primary"> {{user}} </label></h3>
-                  <label id="fld_n_password_l1">Password: 
-                  <input name="fld_n_password" id="fld_n_password">
+                  <h3>Hash:  <label class="text-primary"> {{hash}} </label></h3>
+                  {% if user_url %}
+                   Your time-valid password link:
+                   <div class="col-md-12">
+                   <a href="{{ user_url }}">  <code>{{ user_url }}</code> </a> 
+                  </div>
+                  {% endif %}
+                  <h6>Choose password u want to share then generate temporary link.  </h6>
                   <div class="col-md-3"> 
 
-                  <button type="submit" class="btn btn-primary">Add</button>
-                  <a role="button" onclick="serialize_chx()" class="btn btn-primary">Delete</a>
+                  <a role="button" onclick="serialize_chx()" class="btn btn-primary">Generate</a>
                   </div>
+                  <!-- href="{% url "web_manager:wm_delete" user %}"   -->
               </form>
               </span>
               </div>
@@ -64,13 +70,13 @@
               Password
             </th>
             <th class="lib-add">
-              New password:
+              View Details
             </th>
           </tr>
           </thead>
           <tbody>
 
-          	{% for o in acc_name %}
+            {% for o in acc_name %}
 
          <tr ng-repeat="row in rows" ng-class="{'info': row.selectedFlag}" class="ng-scope">
                       <td id="checkboxy">
@@ -92,9 +98,9 @@
               </td><!-- end ngRepeat: col in columns -->
        
               <td>
-
+       
                 <div id="input-wrapper">
-                <input id="inp_id_{{ o.pk }}" name="inp_id_{{ o.pk }}" type="text" /> 
+                <label class="label label-primary">New password</label><input id="inp_id_{{ o.pk }}" name="inp_id_{{ o.pk }}" type="text" /> 
                 </div>
                 <div class="col-md-12">
                   <button onclick="sl_inp({{o.pk}})" class="button btn-primary">Save</a>
@@ -116,7 +122,7 @@
           <ul class="pagination ng-isolate-scope ng-valid" total-items="rowCount" ng-model="currentPage" items-per-page="10" max-size="10" rotate="false" boundary-links="false" ng-change="pageChanged()">
     <!-- ngIf: boundaryLinks -->
     <!-- ngIf: directionLinks --><li ng-if="directionLinks" ng-class="{disabled: noPrevious()}" class="ng-scope disabled"><a href="" ng-click="selectPage(page - 1, $event)" class="ng-binding">Previous</a></li><!-- end ngIf: directionLinks -->
-    <!-- ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope active"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">1</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">2</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">3</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">4</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">5</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">6</a></li><!-- end ngRepeat: page in pages track by $index -->
+    <!-- ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope active"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding"></a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">2</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">3</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">4</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">5</a></li><!-- end ngRepeat: page in pages track by $index --><li ng-repeat="page in pages track by $index" ng-class="{active: page.active}" class="ng-scope"><a href="" ng-click="selectPage(page.number, $event)" class="ng-binding">6</a></li><!-- end ngRepeat: page in pages track by $index -->
     <!-- ngIf: directionLinks --><li ng-if="directionLinks" ng-class="{disabled: noNext()}" class="ng-scope"><a href="" ng-click="selectPage(page + 1, $event)" class="ng-binding">Next</a></li><!-- end ngIf: directionLinks -->
     <!-- ngIf: boundaryLinks -->
   </ul>
@@ -141,9 +147,8 @@
 <script>
 $("#mc-embedded-generate-form").css({"display": "none"})
 </script>
-{% endif %}
 <script>
-	function selectAll(){
+  function selectAll(){
         if(document.getElementById('checkbox').checked){
             $('.checkbox').each(function(){
                 this.checked = true;
@@ -155,11 +160,8 @@ $("#mc-embedded-generate-form").css({"display": "none"})
                 $(this).attr("checked", "");
             });
         }
-	}
-	function serialize_chx(){var formdata = $('input[type=\'checkbox\']:checked').serialize();loginurl = '{% url "web_manager:wm_delete" user %}';$.ajax({url: loginurl,type: "POST",data: formdata,success: function(data){location.reload()}});}
-
-
-    function sl_inp(id){var formdata = $('#input-wrapper :input').serialize(); loginurl = '{% url "web_manager:wm_password_update" user %}';$.ajax({url: loginurl,type: "POST",data: {'formdata': formdata, 'id': id} ,success:
+  }
+  function sl_inp(id){var formdata = $('#input-wrapper :input').serialize();loginurl = '{% url "web_manager:wm_shared_password_handle" user %}';$.ajax({url: loginurl,type: "POST",data: {'formdata': formdata, 'id': id} ,success:
    function(data)
    {
     data = JSON.parse(data);
@@ -167,5 +169,8 @@ $("#mc-embedded-generate-form").css({"display": "none"})
     location.reload();
    }});}
 
+
 </script>
+{% endif %}
+
 {% endblock layout_footer %}
