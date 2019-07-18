@@ -1,8 +1,11 @@
 # __password_manager
 
-heroku: : https://password-manager-django.herokuapp.com/web_manager
-description: password manager that gives user an "bucket" for his passwords stored in secure way (django crypto), by using get request it is possible to share selected by user password as in temporary link, so that the others can see it and edit.
-set-up: Install Dependencies
+# heroku: 
+https://password-manager-django.herokuapp.com/web_manager
+# description: 
+password manager that gives user an "bucket" for his passwords stored in secure way (django crypto), by using get request it is possible to share selected by user password as in temporary link, so that the others can see it and edit.
+# set-up: 
+Install Dependencies
 
 pip install -r requirements.txt
 
