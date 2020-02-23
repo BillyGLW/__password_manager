@@ -1,0 +1,26 @@
+{% extends "frontend-base.html" %}
+{% block active_menu %}
+      <aside class="main-sidebar">
+          <section class="sidebar">
+              <ul class="sidebar-menu">
+                <li role="presentation" class="active"><a href="{% url "web_manager:index" %}"><i class="fa fa-tachometer active"></i> Dashboard</a></li>
+                  <li class="header">FOLDERS</li>
+                                      <li role="presentation"><a href="{% url "web_manager:manage_password" username %}"><i class="fa fa-server"></i>&nbsp;Manage password</a></li>
+                                      <li role="presentation"><a href="{% url "web_manager:shared_link" username %}">
+                                        <i class="fa fa-server"></i>
+                                        <span class="server-id">Share with friends!</span><br>
+                                        <span class="server-tag">...by sending them a link!</span></a></li>
+                                                  <li class="header">ACCOUNT</li>
+                      <li role="presentation"><a href="{% url "web_manager:wm_logout" %}"><i class="fa fa-sign-out"></i>Log out</a></li>
+                              </ul>
+          </section>
+      </aside>
+{% endblock active_menu %}
+{% block password_info %}
+<h1> User request info: </h1>
+<td> {{ request }} </td>
+<h1> User info: </h1>
+<td> {{ user }} </td>
+<h1> Pretty request: </h1>  <p>  {{ pretty_request }} </p>
+{% endblock password_info %}
+
