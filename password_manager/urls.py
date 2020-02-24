@@ -25,4 +25,5 @@ urlpatterns = [
 	# url('', include('web_manager.urls')),
     path('admin/', admin.site.urls),
     path('web_manager/', include('web_manager.urls')),
+    path('v1/', include('v1.urls')),
 ]

@@ -27,10 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# RESTful definition
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'web_manager.apps.WebManagerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
