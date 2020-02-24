@@ -19,7 +19,7 @@ from django.utils.timezone import utc
 
 # Temporary link settings
 hash_secret = "wojciechnowak"
-# Time that link is vali in minutes
+# Time that link is valid in minutes
 link_time_period = 5
 
 
