@@ -18,3 +18,10 @@ Create SuperUser
 python manage.py createsuperuser
 
 After all these steps , you can start testing and developing this project. That's it! Happy Coding!
+
+### Docker
+- docker-compose:
+ - building a new container with simultaneously running
+# docker-compose down && docker-compose up
+ - migrations
+# docker-compose exec web python manage.py makemigrations --noinput
