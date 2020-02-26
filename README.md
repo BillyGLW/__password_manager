@@ -1,5 +1,3 @@
-# __password_manager
-
 # heroku: 
 https://password-manager-django.herokuapp.com/web_manager
 # description: 
