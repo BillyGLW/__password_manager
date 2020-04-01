@@ -24,8 +24,9 @@ SECRET_KEY = 'tnefdr!*=ago8d%g*g7xm354dicdmhy(_092qy#vl0ka37b17%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # RESTful definition
 
@@ -38,6 +39,7 @@ REST_FRAMEWORK = {
 
 INSTALLED_APPS = [
     'rest_framework',
+    'password_manager.apps.PasswordManagerConfig',
     'web_manager.apps.WebManagerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -93,13 +95,15 @@ WSGI_APPLICATION = 'password_manager.wsgi.application'
 #     }
 # }
 #docker settings
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+# DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+
 #  docker db
 # DATABASES = {
 #     'default': {
@@ -113,15 +117,19 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 # }
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER": os.environ.get("SQL_USER", "user"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
+        # "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
+        # "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "ENGINE": 'django.db.backends.sqlite3',
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        # "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        # "USER": os.environ.get("SQL_USER", "user"),
+        # "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        # "HOST": os.environ.get("SQL_HOST", "localhost"),
+        # "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
 
+# print("TUTAJ NAME", DATABASES['default']['NAME'])
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 

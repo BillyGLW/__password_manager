@@ -35,14 +35,14 @@ def pretty_request(request):
 
     return (
         '{method} HTTP/1.1\n'
-        'Content-Length: {content_length}\n'
-        'Content-Type: {content_type}\n'
+        # 'Content-Length: {content_length}\n'
+        # 'Content-Type: {content_type}\n'
         '{headers}\n\n'
         '{body}'
     ).format(
         method=request.method,
-        content_length=request.META['CONTENT_LENGTH'],
-        content_type=request.META['CONTENT_TYPE'],
+        # content_length=request.META['CONTENT_LENGTH'],  not existing? why?
+        # content_type=request.META['CONTENT_TYPE'], # same ?
         headers=headers,
         body=request.body,
     )
