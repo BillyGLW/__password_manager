@@ -23,4 +23,9 @@ class User_Password_Serializer(serializers.ModelSerializer):
 	class Meta:
 		model = web_manager_password
 		fields = ['id', 'account_name', 'account_password']
+
+class Create_User_Password_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = web_manager_password
+		fields = ['id', 'account_password']
 		

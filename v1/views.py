@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import UserSerializer, GroupSerializer, User_Password_Serializer
+from .serializers import UserSerializer, GroupSerializer, User_Password_Serializer, Create_User_Password_Serializer
 from .pagination import CustomPagination
 from rest_framework.permissions import IsAuthenticated
 
@@ -48,7 +48,7 @@ class RWeb_ManagerView(ListCreateAPIView):
 
     def post(self, request):
         ''' C-reate View '''
-        serializer = User_Password_Serializer(data=request.data)
+        serializer = Create_User_Password_Serializer(data=request.data)
         if serializer.is_valid():
             serializer.save(account_name=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
