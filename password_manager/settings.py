@@ -129,7 +129,19 @@ DATABASES = {
     }
 }
 
-# print("TUTAJ NAME", DATABASES['default']['NAME'])
+
+# POSTGRE migrate
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'pm_db1',
+#         'USER': 'user_root',
+#         'PASSWORD': 'abcdefgh123',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 

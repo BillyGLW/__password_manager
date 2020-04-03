@@ -10,7 +10,8 @@ class Password_Manager_CryptoTestCase(TestCase):
 		self.c = Client()
 
 	def test_password_manager_redirect(self):
-		''' since pm is on TODO list it should always return 404 '''
+		''' since pm is on TODO list it should always return 302 '''
 		response = self.c.get(reverse("rrol"))
-		self.assertEqual(response.status_code, 404)
+		# self.assertEqual(response.status_code, 404)
+		self.assertEqual(response.status_code, 302)
 
