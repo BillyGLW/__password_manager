@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+
+from web_manager.models import web_manager_password
+
 import sys
 sys.path.append("..") # Adds higher directory to python modules path.
-from web_manager.models import web_manager_password
+
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,3 +18,9 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ['url', 'name']
+
+class User_Password_Serializer(serializers.ModelSerializer):
+	class Meta:
+		model = web_manager_password
+		fields = ['id', 'account_name', 'account_password']
+		
