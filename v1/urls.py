@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='obtain_new_token'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='refresh_token'),
     re_path(r'^user/$', views.RWeb_ManagerView.as_view(), name='create_new_password'),
+    re_path(r'^user/(?P<pk>[0-9]+)$', views.RWeb_get_delete_update_ManagerView.as_view(), name='create_new_password'),
     # re_path(r'^user/(?P<pk>[0-9]+)$', views.RWeb_ManagerView.as_view(), name='create_new_password'),
 ]
 
