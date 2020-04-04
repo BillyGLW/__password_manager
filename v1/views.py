@@ -49,8 +49,10 @@ class RWeb_get_delete_update_ManagerView(RetrieveUpdateDestroyAPIView):
 
     def get(self, request, pk):
         web_manager = self.get_queryset(pk)
-        serializer = User_Password_Serializer(web_manager, data=request.data)
-        if serializer.is_valid():
+        serializer = User_Password_Serializer(web_manager)
+
+        # TODO: if only is_valid would be useful
+        if not "404" in str(web_manager):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             content = {
@@ -92,7 +94,7 @@ class RWeb_get_delete_update_ManagerView(RetrieveUpdateDestroyAPIView):
 class RWeb_ManagerView(ListCreateAPIView):
     serializer_class = User_Password_Serializer
     pagination_class = CustomPagination
-    permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         web_manager = web_manager_password.objects.all()
