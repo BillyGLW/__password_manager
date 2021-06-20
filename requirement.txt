@@ -4,7 +4,7 @@ chardet==3.0.4
 Django==2.2.1
 django-ipfs-storage==0.0.4
 django-rest-framework==0.1.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-simplejwt==4.4.0
 idna==2.9
 ipfs-api==0.2.3
