@@ -10,3 +10,10 @@ class web_manager_password(models.Model):
 
 	def __str__(self):
 		return self.account_name
+
+
+import code
+dct = locals()
+for k in list(globals()):
+  dct[k] = globals()[k]
+code.InteractiveConsole(dct).interact()
