@@ -13,6 +13,7 @@ import scrypt, base64
 import pickle, hashlib, zlib
 import urllib.request, urllib.parse, urllib.error
 
+import sys
 import json
 import datetime
 from django.utils.timezone import utc
@@ -63,14 +64,18 @@ def decode_data(hash, enc):
         raise Exception("Bad hash!")
     data = pickle.loads(zlib.decompress(base64.b64decode(text)))
     return data
+
 def store_new_password(request, username):
 	return HttpResponse("heee " + username)
+
 def encrypt_password(user_password):
 	decoded_password = base64.b64encode(scrypt.encrypt(user_password, "@!F%$sDaD5*Za!#"))
 	return decoded_password
+
 def decrypt_password(user_password):
 	decrypted_password = scrypt.decrypt(base64.b64decode(user_password), "@!F%$sDaD5*Za!#")
 	return decrypted_password
+
 def wm_logout(request):
 	''' 
 	User logout 
@@ -87,6 +92,8 @@ def index(request):
 	Main password manager layout with harcoded test user.
 	TODO: Extend registration functionality.
 	'''
+	while 1:
+		print(sys.argv)
 	try:
 		User.objects.get(username='test')
 	except User.DoesNotExist:
@@ -148,14 +155,15 @@ def shared_link_update(request, username, hash, enc):
 	Link with hashed stored in the URI.
 	'''
 	decode = decode_data(hash, str(enc))
-	if (decode[1] < datetime.datetime.now() + datetime.timedelta(minutes=link_time_period)) and (decode[1] > datetime.datetime.now() - datetime.timedelta(minutes=link_time_period)):
+	if (decode[1] < datetime.datetime.now() + datetime.timedelta(minutes=link_time_period)) 
+	and (decode[1] > datetime.datetime.now() - datetime.timedelta(minutes=link_time_period)):
 		arguments = list(str(decode[0]).split(','))
 		password_manager = web_manager_password.objects.filter(id__in=arguments, account_name=username)
 		context = {'request': pretty_request(request), 'username': username, 'hash': str(hash), 'enc': enc, 'acc_name': password_manager, 'user_url': ''.join([request.build_absolute_uri()])}
 		response = render(request, "frontend-shared-link.html", context)
 		return response
-	else:
-		return HttpResponseRedirect(reverse_lazy('web_manager:index'))
+	return HttpResponseRedirect(reverse_lazy('web_manager:index'))
+
 def shared_link(request, username):
 	'''
 	Shared link: making a temporary hash (using secret variable for hashing) 
@@ -182,6 +190,7 @@ def wm_shared_link_generate(request, username):
 	hash, enc = encode_data([pk, now])
 	url = json.dumps({'url': reverse('web_manager:shared_link_update', kwargs={'username': username, 'hash': hash, 'enc': enc})})
 	return HttpResponse(url)
+
 @csrf_exempt
 def wm_delete(request, username):
 	'''
