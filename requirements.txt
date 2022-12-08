@@ -3,7 +3,7 @@ pytz==2019.1
 scrypt==0.8.13
 sqlparse==0.3.0
 base58==2.0.0
-certifi==2019.11.28
+certifi==2022.12.7
 chardet==3.0.4
 Django==2.2.10
 django-ipfs-storage==0.0.4
@@ -23,7 +23,7 @@ sqlparse==0.3.0
 urllib3==1.25.8
 varint==1.0.2
 base58==2.0.0
-certifi==2019.11.28
+certifi==2022.12.7
 chardet==3.0.4
 Django==2.2.10
 django-ipfs-storage==0.0.4
